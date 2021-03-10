@@ -52,3 +52,6 @@ Route::get('home/{nombre?}/{apellido?}', function ($nombre = "Pepe", $apellido =
 /* Route::group(['prefix' => 'admin'], function () {
     Route::resource('post', PostController::class);
 }); */
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

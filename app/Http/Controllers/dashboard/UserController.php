@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryPost;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -22,8 +20,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(3);
-        return view('dashboard.category.index', compact('categories'));
+        $users = User::paginate(3);
+        return view('dashboard.User.index', compact('users'));
     }
 
     /**
@@ -33,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('dashboard.category.create', ['category' => new Category()]);
+        return view('dashboard.User.create', ['User' => new User()]);
     }
 
     /**
@@ -42,56 +40,56 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryPost $request)
+    public function store(StoreUserPost $request)
     {
-        Category::create($request->validated());
+        User::create($request->validated());
         return back()->with('status', 'Categoría creada con éxito.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(User $User)
     {
-        return view('dashboard.category.show', compact('category'));
+        return view('dashboard.User.show', compact('User'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(User $User)
     {
-        return view('dashboard.category.edit', ['category' => $category]);
+        return view('dashboard.User.edit', ['User' => $User]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreCategoryPost $request, Category $category)
+    public function update(StoreUserPost $request, User $User)
     {
-        $category->update($request->validated());
+        $User->update($request->validated());
         return back()->with('status', 'Categoría actualizada con éxito.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(User $User)
     {
-        $category->delete();
+        $User->delete();
         return back()->with('status', 'Categoría eliminada con éxito.');
     }
 }
