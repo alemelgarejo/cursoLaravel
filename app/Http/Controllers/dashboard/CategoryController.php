@@ -13,8 +13,8 @@ class CategoryController extends Controller
     {
         $this->middleware(['auth', 'rol.admin']);
     }
-    
-    
+
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(3);
+        $categories = Category::paginate(8);
         return view('dashboard.category.index', compact('categories'));
     }
 

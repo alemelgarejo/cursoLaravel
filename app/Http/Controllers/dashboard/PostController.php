@@ -26,7 +26,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(3);
+        $posts = Post::paginate(8);
         return view('dashboard.post.index', compact('posts'));
     }
 
@@ -54,7 +54,7 @@ class PostController extends Controller
             //'url_clean' => 'required|min:5|max:500',
             'content' => 'required|min:5'
         ]); */
-        
+
         Post::create($request->validated());
         return back()->with('status', 'Post creado con éxito.');
     }
@@ -68,7 +68,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return view('dashboard.post.show', ['post' => $post]);
-          
+
     }
 
     /**
@@ -106,7 +106,7 @@ class PostController extends Controller
 
         return back()->with('status', 'Imagen cargada con éxito.');
     }
-    
+
     public function update(StorePostPost $request, Post $post)
     {
         $post->update($request->validated());
