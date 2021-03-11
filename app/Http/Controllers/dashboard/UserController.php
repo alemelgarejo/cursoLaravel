@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserPost;
+use App\Http\Requests\UpdateUserPut;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,8 +15,8 @@ class UserController extends Controller
     {
         $this->middleware(['auth', 'rol.admin']);
     }
-    
-    
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +25,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(3);
-        return view('dashboard.User.index', compact('users'));
+        return view('dashboard.user.index', compact('users'));
     }
 
     /**
@@ -31,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('dashboard.User.create', ['User' => new User()]);
+        return view('dashboard.user.create', ['user' => new User()]);
     }
 
     /**
@@ -42,8 +46,15 @@ class UserController extends Controller
      */
     public function store(StoreUserPost $request)
     {
-        User::create($request->validated());
-        return back()->with('status', 'Categoría creada con éxito.');
+        User::create(
+            [
+                'name' => $request['name'],
+                'rol_id' => 2, //rol de regular
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+            ]
+        );
+        return back()->with('status', 'Usuario creado con éxito.');
     }
 
     /**
@@ -52,9 +63,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function show(User $User)
+    public function show(User $user)
     {
-        return view('dashboard.User.show', compact('User'));
+        return view('dashboard.user.show', compact('user'));
     }
 
     /**
@@ -63,9 +74,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $User)
+    public function edit(User $user)
     {
-        return view('dashboard.User.edit', ['User' => $User]);
+        return view('dashboard.user.edit', ['user' => $user]);
     }
 
     /**
@@ -75,10 +86,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUserPost $request, User $User)
+    public function update(UpdateUserPut $request, User $user)
     {
-        $User->update($request->validated());
-        return back()->with('status', 'Categoría actualizada con éxito.');
+        $user->update(
+            [
+                'name' => $request['name'],
+                'email' => $request['email'],
+            ]
+        );
+        return back()->with('status', 'Usuario actualizado con éxito.');
     }
 
     /**
@@ -87,9 +103,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $User)
+    public function destroy(User $user)
     {
-        $User->delete();
-        return back()->with('status', 'Categoría eliminada con éxito.');
+        $user->delete();
+        return back()->with('status', 'Usuario eliminado con éxito.');
     }
 }
