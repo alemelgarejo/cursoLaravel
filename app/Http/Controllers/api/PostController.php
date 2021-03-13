@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -26,12 +27,6 @@ class PostController extends ApiResponseController
         //return response()->json($posts, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
     public function show(Post $post)
     {
         $post->image;
@@ -40,11 +35,10 @@ class PostController extends ApiResponseController
         //return response()->json(['data' => $post, 'code' => 500, 'msj' => ''], 500);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function category(Category $category)
+    {
+        return $this->successResponse(['post' => $category->post()->paginate(10), "category" => $category]);
+        //return response()->json(['data' => $post, 'code' => 500, 'msj' => ''], 500);
+    }
 
 }
